@@ -21,6 +21,6 @@
         <!--<setting name="useGeneratedKeys" value="true"/>-->
         <!-- 使用别名转换 -->
         <setting name="useColumnLabel" value="true"/>
-        <setting name="mapUnderscoreCamelCase" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 </configuration>

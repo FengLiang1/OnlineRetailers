@@ -1,18 +1,18 @@
-package com.lemon.entity.dao;
+package com.lemon.dao;
 
-import com.lemon.entity.Seckill;
+import com.lemon.entity.SecondKill;
 
 import java.util.Date;
 
-public interface SeckillDao {
-    void insert(Seckill seckill);
+public interface SecondKillDao {
+    void insert(SecondKill secondKill);
 
     /**
      * 秒杀成功的话秒杀次数减1
      */
     void reduceNumber(long id, Date killTime);
 
-    Seckill queryById(String id);
+    SecondKill queryById(String id);
 
     void delete(String id);
 }

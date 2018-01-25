@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tool http://www.springframework.org/schema/tool/spring-tool.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <import resource="spring_dao.xml"/>
+
+    <!-- 扫描service包下所有使用注解类型 -->
+    <!-- 配置需自动注入的@Controller、@Service、@Repository、@Component等包路径 -->
+    <context:component-scan base-package="com.lemon.service"/>
+
+    <!-- 配置事务管理 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 注入连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 默认使用注解来管理事务行为 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 通过xml配置配置事务
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            &lt;!&ndash; 使用主库的service业务操作 &ndash;&gt;
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="batchSave*" read-only="false" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="add*" read-only="false" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="revert*" read-only="false" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="del*" read-only="false" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="batchDel*" read-only="false" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="modify*" read-only="false" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="batchModify*" read-only="false" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="update*" read-only="false" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="batchUpdate*" read-only="false" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="tran*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="regist*" propagation="REQUIRED" rollback-for="Exception"/>
+
+            &lt;!&ndash; 使用从库的service业务操作 &ndash;&gt;
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="query*" read-only="true"/>
+            <tx:method name="search*" read-only="true"/>
+            <tx:method name="select*" read-only="true"/>
+            <tx:method name="get*" read-only="true" />
+            &lt;!&ndash;<tx:method name="analysis*" read-only="true" />&ndash;&gt;
+            <tx:method name="*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+    &lt;!&ndash;   通过AOP切入  &ndash;&gt;
+    &lt;!&ndash;
+        aop:pointcut多个包路径可配置为：
+        expression="(execution(* com.tsinghuabigdata.edu.frontend.service..*.*(..))) and (execution(* com.tsinghuabigdata.edu.server.service..*.*(..)))" />
+    &ndash;&gt;
+    <aop:config>
+        <aop:pointcut id="newServicesPointcut"
+                      expression="execution(* com.lemon.service..*..*.*(..))" />
+        <aop:advisor advice-ref="txAdvice"
+                     pointcut-ref="newServicesPointcut" />
+    </aop:config>-->
+
+</beans>

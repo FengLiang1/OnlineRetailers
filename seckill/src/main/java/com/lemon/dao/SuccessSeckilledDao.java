@@ -1,7 +1,7 @@
 package com.lemon.dao;
 
-import com.lemon.entity.SuccessSeckilled;
+import com.lemon.entity.SuccessSecondKilled;
 
 public interface SuccessSeckilledDao {
-    void insert(SuccessSeckilled successSeckilled);
+    void insert(SuccessSecondKilled successSecondKilled);
 }

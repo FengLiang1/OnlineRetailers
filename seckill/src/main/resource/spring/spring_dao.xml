@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties" />
+    </bean>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="${driver}" />
+        <property name="jdbcUrl" value="${url}" />
+        <property name="user" value="${username}" />
+        <property name="password" value="${password}" />
+        <!-- 连接池最大数量 -->
+        <property name="maxPoolSize" value="20"/>
+        <property name="minPoolSize" value="10"/>
+        <!-- 当关闭连接后不自动commit -->
+        <property name="autoCommitOnClose" value="false"/>
+        <!-- 重试次数 -->
+        <property name="acquireRetryAttempts" value="2"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="checkoutTimeout" value="${maxWait}"/>
+    </bean>
+
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- 它一般对应我们的实体类所在的包，这个时候会自动取对应包中不包括包名的简单类名作为包括包名的别名。 -->
+        <property name="typeAliasesPackage" value="com.lemon.entity"/>
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:com/lemon/dao/mapper/*.xml"/>
+    </bean>
+
+    <!-- 配置dao接口包，动态实现dao接口，注入到spring容器中 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.lemon.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+</beans>

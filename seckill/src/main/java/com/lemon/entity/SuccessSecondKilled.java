@@ -5,9 +5,9 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class SuccessSeckilled {
+public class SuccessSecondKilled {
     private String id;
-    private String seckillId;
+    private String secondKillId;
     private String userPhoneNum;
     private int state;
     private Date createTime;
