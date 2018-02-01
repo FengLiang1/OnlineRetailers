@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,5 +32,16 @@ public class SecondKillServiceImpl implements SecondKillService {
         seckill.setStartTime(new Date());
         seckill.setCreateTime(new Date());
         secondKillDao.insert(seckill);
+    }
+
+    public List<SecondKill> queryAll() {
+        SecondKill secondKill = new SecondKill();
+        secondKill.setCreateTime(new Date());
+        secondKill.setEndTime(new Date());
+        secondKill.setId("11");
+        secondKill.setStartTime(new Date());
+        List<SecondKill> list = new ArrayList<SecondKill>();
+        list.add(secondKill);
+        return list;
     }
 }
